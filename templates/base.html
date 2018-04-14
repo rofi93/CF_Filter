@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'head.html' %}
+    {% block extrahead %}
+
+    {% endblock %}
+</head>
+<body>
+
+<div>
+
+    {% include 'topnavbar.html' %}
+
+    {% include 'main_menubar.html' %}
+
+    <div>
+
+        <section>
+
+            {% block content %}
+            {% endblock %}
+
+        </section>
+
+    </div>
+
+    {% include 'footer.html' %}
+
+</div>
+
+{% include 'js.html' %}
+
+{% block script %}
+{% endblock %}
+
+</body>
+
+</html>
