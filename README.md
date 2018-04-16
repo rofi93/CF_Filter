@@ -24,7 +24,7 @@ Upon completion activate virtual environment and install requirements.
 Now, create [Postgresql](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-16-04) 
 database necessary for the project and move to project directory and run.
 
-    cd cf_filter
+    cd CF_Filter
     python3 manage.py migrate
     python3 manage.py crontab add
     python3 manage.py runserver
