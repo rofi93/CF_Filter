@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 
@@ -30,8 +32,9 @@ class Tag(models.Model):
 class Contest(models.Model):
     contest_id = models.IntegerField(verbose_name='Contest ID')
     name = models.CharField(verbose_name='Contest Name', max_length=250)
-    url = models.URLField(verbose_name='URL')
+    contest_url = models.URLField(verbose_name='Contest URL')
     kind = models.ForeignKey(Kind, verbose_name='Kind', on_delete=models.CASCADE)
+    end_time = models.DateTimeField(verbose_name='End Time', default=datetime.today)
     done = models.BooleanField(verbose_name='Done', default=False)
 
     def __str__(self):
@@ -41,6 +44,7 @@ class Contest(models.Model):
 class ContestInfo(models.Model):
     contest = models.ForeignKey(Contest, verbose_name='Contest', on_delete=models.CASCADE)
     index = models.CharField(verbose_name='Index', max_length=5)
+    problem_url = models.URLField(verbose_name='Problem URL')
 
     def __str__(self):
         return str(self.contest.contest_id) + str(self.index)

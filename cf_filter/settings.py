@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'filter',
 ]
 
@@ -141,3 +142,11 @@ STATICFILES_DIRS = (
 )
 
 SITE_ID = 1
+
+
+# Cron Job Settings
+
+CRONJOBS = [
+    ('*/60 * * * *', 'filter.crons.add_new_contest'),
+    ('*/60 * * * *', 'filter.crons.add_new_problem'),
+]
