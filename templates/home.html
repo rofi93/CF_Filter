@@ -1,10 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for r in results %}
-    {{ r.name }} <br>
-{% endfor %}
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Problem</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in problems %}
+            {% for c in p.contest_info.all %}
+                <tr>
+                    <td>{{ c.contest.contest_id }}{{ c.index }}</td>
+                    <td><a href="{{ c.problem_url }}" target="_blank">{{ p.name }}</a></td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
 
 {% block script %}
+<script>
+    $(document).ready(function() {
+
+
+    });
+</script>
 {% endblock %}
