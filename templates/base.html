@@ -6,28 +6,31 @@
 
     {% endblock %}
 </head>
-<body>
 
-<div>
+<body class="navbar-fixed sidebar-nav fixed-nav">
 
+
+{% block navbar %}
     {% include 'topnavbar.html' %}
+{% endblock %}
 
+{% block menubar %}
     {% include 'main_menubar.html' %}
+{% endblock %}
 
-    <div>
-
-        <section>
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
 
             {% block content %}
             {% endblock %}
 
-        </section>
-
+        </div>
     </div>
+</main>
 
-    {% include 'footer.html' %}
 
-</div>
+{% include 'footer.html' %}
 
 {% include 'js.html' %}
 

@@ -57,6 +57,22 @@ def get_soup(url):
     return soup
 
 
+def add_tag(problem, problem_url):
+    new_soup = get_soup(problem_url)
+    tags = new_soup.find_all('span', {'class': 'tag-box'})
+
+    for tag_ in tags:
+        tag_name = tag_.get_text().strip()
+        tag_description = tag_.get('title')
+        tag, created = Tag.objects.get_or_create(name=tag_name, description=tag_description)
+
+        if not problem.tags.filter(name=tag.name):
+            problem.tags.add(tag)
+            problem.save()
+
+    return problem
+
+
 def add_new_problem():
     contests = Contest.objects.filter(done=False).order_by('contest_id')
 
@@ -117,15 +133,22 @@ def add_new_problem():
             problem.contest_info.add(contest_info)
             problem.save()
 
-            new_soup = get_soup(problem_url)
-            tags = new_soup.find_all('span', {'class': 'tag-box'})
-
-            for tag_ in tags:
-                tag_name = tag_.get_text().strip()
-                tag_description = tag_.get('title')
-                tag, created = Tag.objects.get_or_create(name=tag_name, description=tag_description)
-                problem.tags.add(tag)
-                problem.save()
+            add_tag(problem, problem_url)
 
         contest.done = True
         contest.save()
+
+
+def update_tags():
+    interval = float(30 * 24 * 60 * 60)
+    current_timestamp = datetime.datetime.timestamp(datetime.datetime.now())
+    needed_datetime = datetime.datetime.fromtimestamp(current_timestamp - interval)
+
+    contests = Contest.objects.filter(end_time__gte=needed_datetime)
+    problems = Problem.objects.filter(contest_info__contest__in=contests)
+
+    for problem in problems:
+        problem.tags.clear()
+
+        for contest_info in problem.contest_info.all():
+            add_tag(problem, contest_info.problem_url)

@@ -1,9 +1,8 @@
 import requests
 
-from django.shortcuts import get_object_or_404, HttpResponseRedirect, render
+from django.shortcuts import render
 from django.views.generic.base import View
 
-from .crons import get_soup
 from .models import Contest, ContestInfo, Division, Kind, Problem, Tag
 
 
