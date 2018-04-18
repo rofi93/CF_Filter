@@ -1,24 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<table>
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Problem</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for p in problems %}
-            {% for c in p.contest_info.all %}
-                <tr>
-                    <td>{{ c.contest.contest_id }}{{ c.index }}</td>
-                    <td><a href="{{ c.problem_url }}" target="_blank">{{ p.name }}</a></td>
-                </tr>
-            {% endfor %}
-        {% endfor %}
-    </tbody>
-</table>
+<div class="row">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="col-md-8">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover text-center">
+                                <thead>
+                                <tr class="info">
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Problem</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for p in problems %}
+                                {% for c in p.contest_info.all %}
+                                <tr>
+                                    <td>{{ c.contest.contest_id }}{{ c.index }}</td>
+                                    <td><a href="{{ c.problem_url }}" target="_blank">{{ p.name }}</a></td>
+                                </tr>
+                                {% endfor %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h2> Filter By</h2>
+                    <p><strong>Select Div </strong></p>
+                    <select class="form-control">
+
+                        <option>Div1</option>
+                        <option>Div2</option>
+
+                    </select>
+                    <br>
+                    <p><strong>Select Problem Number</strong></p>
+                    <select class="form-control">
+
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>D</option>
+                        <option>E</option>
+                    </select>
+                    <br>
+                    <p><strong>Select tags</strong></p>
+                    <select class="form-control">
+
+                        <option>Math</option>
+                        <option>Ad-Hoc</option>
+                        <option>DP</option>
+                        <option>Greedy</option>
+
+                    </select>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
 
 {% block script %}
@@ -27,5 +75,7 @@
 
 
     });
+
+
 </script>
 {% endblock %}
