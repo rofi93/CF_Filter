@@ -42,9 +42,13 @@
                                 <p><strong>Division</strong></p>
                                 <select class="form-control" name="division">
 
-                                    <option value="" selected>--------</option>
+                                    <option value="" {% if selected_div == None %} selected {% endif %}>
+                                        --------
+                                    </option>
                                     {% for d in divisions %}
-                                    <option value="{{ d.number }}">{{ d.name }}</option>
+                                    <option value="{{ d.number }}"
+                                            {% if selected_div == d.number %} selected {% endif %}>{{ d.name }}
+                                    </option>
                                     {% endfor %}
 
                                 </select>
@@ -54,9 +58,13 @@
                                 <p><strong>Problem Index</strong></p>
                                 <select class="form-control" name="index">
 
-                                    <option value="" selected>--------</option>
+                                    <option value="" {% if selected_index == None %} selected {% endif %}>
+                                        --------
+                                    </option>
                                     {% for i in indexes %}
-                                    <option value="{{ i.index }}">{{ i.index }}</option>
+                                    <option value="{{ i.index }}"
+                                            {% if selected_index == i.index %} selected {% endif %}>{{ i.index }}
+                                    </option>
                                     {% endfor %}
 
                                 </select>
@@ -68,7 +76,8 @@
                                 {% for t in tags %}
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="tags" value="{{ t.id }}">{{ t.name|title }}
+                                        <input type="checkbox" name="tags" value="{{ t.id }}"
+                                               {% if t.id in selected_tags %} checked {% endif %}>{{ t.name|title }}
                                     </label>
                                 </div>
                                 {% endfor %}
@@ -97,6 +106,7 @@
 
 
     });
+
 
 </script>
 {% endblock %}

@@ -2,6 +2,7 @@ from functools import reduce
 from operator import __and__, __or__, and_
 import requests
 
+from django.contrib.postgres.aggregates import JSONBAgg
 from django.db.models import F, Q
 from django.shortcuts import render
 from django.views.generic.base import View
@@ -35,6 +36,8 @@ class Home(View):
         self.context['problems'] = Problem.objects.all().order_by('-contest_info__contest__contest_id',
                                                                   'contest_info__index')[:100]
         self.context['selected_div'] = None
+        self.context['selected_index'] = None
+        self.context['selected_tags'] = []
         self.get_context()
 
         return render(request, self.template_name, self.context)
@@ -48,13 +51,14 @@ class Home(View):
         problems = Problem.objects.all()
 
         if division:
-            if division == '0':
+            division = int(division)
+            if division == 0:
                 divisions.append(0)
             else:
                 divisions.append(3)
-            if division == '1' or division == '3':
+            if division == 1 or division == 3:
                 divisions.append(1)
-            if division == '2' or division == '3':
+            if division == 2 or division == 3:
                 divisions.append(2)
 
             problems = problems.filter(contest_info__contest__kind__division__number__in=divisions)
@@ -62,13 +66,14 @@ class Home(View):
         if index:
             problems = problems.filter(contest_info__index__contains=index)
 
-        # query = [Q(tags__id__in=[tag]) for tag in tags]
-        # problems = problems.filter(reduce(and_, query))
-        if tags:
-            problems = problems.filter(tags__id__in=tags)
+        tags = list(map(int, tags))
+        for tag in tags:
+            problems = problems.filter(tags=tag)
 
         self.context['problems'] = problems.order_by('-contest_info__contest__contest_id', 'contest_info__index')
         self.context['selected_div'] = division
+        self.context['selected_index'] = index
+        self.context['selected_tags'] = tags
         self.get_context()
 
         return render(request, self.template_name, self.context)
