@@ -1,5 +1,3 @@
-from functools import reduce
-from operator import __and__, __or__, and_
 import requests
 
 from django.contrib.postgres.aggregates import JSONBAgg
@@ -80,5 +78,5 @@ class Home(View):
 
     def get_context(self):
         self.context['divisions'] = Division.objects.all().order_by('number')
-        self.context['indexes'] = ContestInfo.objects.all().values('index').distinct().order_by(F('index'))
+        self.context['indexes'] = ContestInfo.objects.all().values('index').distinct().order_by(F('id'))
         self.context['tags'] = Tag.objects.all().order_by('name')
