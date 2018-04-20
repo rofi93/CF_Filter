@@ -26,6 +26,7 @@ database necessary for the project and move to project directory and run.
 
     cd CF_Filter
     python3 manage.py migrate
+    python3 manage.py createdata
     python3 manage.py crontab add
     python3 manage.py runserver
     
