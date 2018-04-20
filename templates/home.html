@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 <div class="row">
@@ -14,15 +15,19 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th class="text-center">Problem</th>
+                                    <th class="text-center">Division</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for p in problems %}
                                 {% for c in p.contest_info.all %}
+                                {% if c|check_division:selected_div %}
                                 <tr>
                                     <td>{{ c.contest.contest_id }}{{ c.index }}</td>
                                     <td><a href="{{ c.problem_url }}" target="_blank">{{ p.name }}</a></td>
+                                    <td>{{ c.contest.kind.division.name }}</td>
                                 </tr>
+                                {% endif %}
                                 {% endfor %}
                                 {% endfor %}
                                 </tbody>

@@ -1,6 +1,8 @@
+from functools import reduce
+from operator import __and__, __or__, and_
 import requests
 
-from django.db.models import F
+from django.db.models import F, Q
 from django.shortcuts import render
 from django.views.generic.base import View
 
@@ -32,6 +34,7 @@ class Home(View):
     def get(self, request, *args, **kwargs):
         self.context['problems'] = Problem.objects.all().order_by('-contest_info__contest__contest_id',
                                                                   'contest_info__index')[:100]
+        self.context['selected_div'] = None
         self.get_context()
 
         return render(request, self.template_name, self.context)
@@ -59,10 +62,13 @@ class Home(View):
         if index:
             problems = problems.filter(contest_info__index__contains=index)
 
+        # query = [Q(tags__id__in=[tag]) for tag in tags]
+        # problems = problems.filter(reduce(and_, query))
         if tags:
             problems = problems.filter(tags__id__in=tags)
 
         self.context['problems'] = problems.order_by('-contest_info__contest__contest_id', 'contest_info__index')
+        self.context['selected_div'] = division
         self.get_context()
 
         return render(request, self.template_name, self.context)
