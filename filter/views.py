@@ -45,6 +45,7 @@ class Home(View):
         index = request.POST.get('index')
         tags = request.POST.getlist('tags')
 
+        query = Q()
         divisions = []
         problems = Problem.objects.all()
 
@@ -59,14 +60,17 @@ class Home(View):
             if division == 2 or division == 3:
                 divisions.append(2)
 
-            problems = problems.filter(contest_info__contest__kind__division__number__in=divisions)
+            query &= Q(contest_info__contest__kind__division__number__in=divisions)
 
         if index:
-            problems = problems.filter(contest_info__index__contains=index)
+            query &= Q(contest_info__index__contains=index)
+
+        if query:
+            problems = problems.filter(query)
 
         tags = list(map(int, tags))
         for tag in tags:
-            problems = problems.filter(tags=tag)
+            problems = problems.filter(tags__id=tag)
 
         self.context['problems'] = problems.order_by('-contest_info__contest__contest_id', 'contest_info__index')
         self.context['selected_div'] = division
