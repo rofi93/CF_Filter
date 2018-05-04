@@ -51,8 +51,8 @@ class Home(View):
 
         if division:
             division = int(division)
-            if division == 0:
-                divisions.append(0)
+            if division in [0, 4]:
+                divisions.append(division)
             else:
                 divisions.append(3)
             if division == 1 or division == 3:

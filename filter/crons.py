@@ -38,6 +38,8 @@ def add_new_contest():
             kind = Kind.objects.get(division__number=1)
         elif name.find('Div. 2') > -1 and name.find('Educational') == -1:
             kind = Kind.objects.get(division__number=2)
+        elif name.find('Div. 3') > -1 and name.find('Educational') == -1:
+            kind = Kind.objects.get(division__number=4)
         else:
             if name.find('Beta Round') > -1:
                 kind = Kind.objects.get(division__number=3)

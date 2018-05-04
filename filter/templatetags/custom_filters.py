@@ -10,8 +10,8 @@ def check_division(contest_info, selected_div):
 
     if selected_div is None or selected_div == '':
         return True
-    if selected_div == 0:
-        divisions.append(0)
+    if selected_div in [0, 4]:
+        divisions.append(selected_div)
     else:
         divisions.append(3)
     if selected_div == 1 or selected_div == 3:

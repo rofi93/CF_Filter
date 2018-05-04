@@ -9,8 +9,10 @@ class Command(BaseCommand):
         div_1, created = Division.objects.get_or_create(name='Division 1', number=1)
         div_2, created = Division.objects.get_or_create(name='Division 2', number=2)
         div_3, created = Division.objects.get_or_create(name='Division 1 + 2', number=3)
+        div_4, created = Division.objects.get_or_create(name='Division 3', number=4)
 
         kind_1, created = Kind.objects.get_or_create(name='Codeforces Regular Round', division=div_1)
         kind_2, created = Kind.objects.get_or_create(name='Codeforces Regular Round', division=div_2)
         kind_3, created = Kind.objects.get_or_create(name='Codeforces Regular Round', division=div_3)
         kind_4, created = Kind.objects.get_or_create(name='Other', division=div_0)
+        kind_5, created = Kind.objects.get_or_create(name='Codeforces Regular Round', division=div_4)
